@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:surf_flutter_study_jam_2023/di/di_container.dart';
 import 'package:surf_flutter_study_jam_2023/domain/ticket_domain.dart';
 import 'package:surf_flutter_study_jam_2023/error_handler/error_handler.dart';
+import 'package:surf_flutter_study_jam_2023/features/pdf_view/pdf_view_screen.dart';
 import 'package:surf_flutter_study_jam_2023/features/ticket_storage_screen/ticket_storage_model.dart';
 import 'package:surf_flutter_study_jam_2023/features/ticket_storage_screen/ticket_storage_screen.dart';
 import 'package:surf_flutter_study_jam_2023/interactor/download/download_interactor.dart';
@@ -91,8 +92,12 @@ class TicketStorageWidgetModel
   }
 
   @override
-  void downloadTicket(TicketDomain ticket) {
-    model.downloadTicket(ticket.url, onReceiveProgress);
+  void downloadTicket(TicketDomain ticket) async {
+    String? filePath =
+        await model.downloadTicket(ticket.url, onReceiveProgress);
+    if (filePath != null) {
+      Navigator.of(context).push(PdfViewScreenRoute(filePath));
+    }
   }
 
   void onReceiveProgress(int count, int total) {

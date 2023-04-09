@@ -25,11 +25,11 @@ class TicketStorageScreenModel extends ElementaryModel {
   void deleteTicket(TicketDomain ticket) =>
       _ticketsRepository.deleteTicket(ticket);
 
-  void downloadTicket(
+  Future<String?> downloadTicket(
     String url,
     void Function(int, int)? onReceiveProgress,
-  ) =>
-      _downloadInteractor.download(
+  ) async =>
+      await _downloadInteractor.download(
         url,
         onReceiveProgress,
       );
