@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:surf_flutter_study_jam_2023/res/colors.dart';
 
-///
+/// Экран для отображение PDF файла
 class PdfViewScreen extends StatelessWidget {
+  /// Локальный источник PDF
   final String pdfSource;
 
   const PdfViewScreen(
