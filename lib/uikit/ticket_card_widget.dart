@@ -17,6 +17,8 @@ class TicketCardWidget extends StatelessWidget {
   /// Общий размер файла
   final double? total;
 
+  final VoidCallback onDownloadTap;
+
   const TicketCardWidget({
     super.key,
     required this.name,
@@ -24,6 +26,7 @@ class TicketCardWidget extends StatelessWidget {
     required this.status,
     this.currentLoaded,
     this.total,
+    required this.onDownloadTap,
   });
 
   @override
@@ -81,7 +84,10 @@ class TicketCardWidget extends StatelessWidget {
           SizedBox(
             width: 30,
           ),
-          Icon(Icons.download),
+          IconButton(
+            icon: Icon(Icons.download),
+            onPressed: onDownloadTap,
+          ),
           SizedBox(
             width: 16,
           ),

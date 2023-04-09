@@ -1,5 +1,3 @@
-import 'package:surf_flutter_study_jam_2023/res/common_strings.dart';
-
 /// Доменная модель для билета
 class TicketDomain {
   /// Название билета

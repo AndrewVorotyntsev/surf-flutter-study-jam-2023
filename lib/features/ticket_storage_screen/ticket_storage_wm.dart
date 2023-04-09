@@ -1,10 +1,12 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_flutter_study_jam_2023/di/di_container.dart';
-import 'package:surf_flutter_study_jam_2023/domain/ticket.dart';
+import 'package:surf_flutter_study_jam_2023/domain/ticket_domain.dart';
 import 'package:surf_flutter_study_jam_2023/error_handler/error_handler.dart';
 import 'package:surf_flutter_study_jam_2023/features/ticket_storage_screen/ticket_storage_model.dart';
 import 'package:surf_flutter_study_jam_2023/features/ticket_storage_screen/ticket_storage_screen.dart';
+import 'package:surf_flutter_study_jam_2023/interactor/download/download_interactor.dart';
+import 'package:surf_flutter_study_jam_2023/repository/tickets_repository.dart';
 import 'package:surf_flutter_study_jam_2023/uikit/popup/show_popup.dart';
 import 'package:surf_flutter_study_jam_2023/uikit/ticket_dialog.dart';
 
@@ -19,15 +21,25 @@ abstract class ITicketStorageWidgetModel extends IWidgetModel {
   /// Контроллер для скрола списка
   ScrollController get ticketsListScrollController;
 
+  /// Контроллер для ввода ссылки
+  TextEditingController get urlController;
+
+  /// Контроллер для ввода названия билета
+  TextEditingController get nameController;
+
   void showAddNewTicketDialog();
 
-  void deleteTicket();
+  void deleteTicket(TicketDomain ticket);
+
+  void downloadTicket(TicketDomain ticket);
 }
 
 TicketStorageWidgetModel defaultAppWidgetModelFactory(BuildContext context) {
   return TicketStorageWidgetModel(
     TicketStorageScreenModel(
       getIt.get<AppErrorHandler>(),
+      getIt.get<TicketsRepository>(),
+      getIt.get<DownloadInteractor>(),
     ),
   );
 }
@@ -45,15 +57,22 @@ class TicketStorageWidgetModel
   late ScrollController ticketsListScrollController;
 
   @override
-  // TODO: implement newsListState
   ListenableState<EntityState<List<TicketDomain>>> get ticketsListState =>
       _ticketsList;
 
   final _ticketsList = EntityStateNotifier<List<TicketDomain>>();
 
   @override
+  final TextEditingController urlController = TextEditingController();
+
+  @override
+  final TextEditingController nameController = TextEditingController();
+
+  @override
   void initWidgetModel() {
-    // TODO: загрузить локальные билеты
+    final localTicketsList = model.getListTickets();
+    _ticketsList.accept(EntityState(data: localTicketsList));
+
     ticketsListScrollController = ScrollController();
     ticketsListScrollController.addListener(_ticketsListScrollListener);
     super.initWidgetModel();
@@ -64,17 +83,33 @@ class TicketStorageWidgetModel
     showPopUp(
       context,
       NewTicketDialog(
-        urlController: TextEditingController(),
+        nameController: nameController,
+        urlController: urlController,
         onAddTapped: _addNewTicket,
       ),
     );
   }
 
+  @override
+  void downloadTicket(TicketDomain ticket) {
+    model.downloadTicket(ticket.url, onReceiveProgress);
+  }
+
+  void onReceiveProgress(int count, int total) {
+    print('count $count : total $total');
+  }
+
   void _addNewTicket() {
+    TicketDomain newTicket = TicketDomain(
+      name: nameController.text,
+      url: urlController.text,
+      created: DateTime.now(),
+    );
     final prevList = _ticketsList.value?.data ?? [];
-    prevList
-        .add(TicketDomain(name: 'ticket', url: '', created: DateTime.now()));
+    prevList.add(newTicket);
+    model.addTicket(newTicket);
     _ticketsList.accept(EntityState(data: prevList));
+    Navigator.of(context).pop();
   }
 
   /// Прослушиватель скрола списка билетов
@@ -88,7 +123,7 @@ class TicketStorageWidgetModel
   }
 
   @override
-  void deleteTicket() {
-    print('delete');
+  void deleteTicket(TicketDomain ticket) {
+    model.deleteTicket(ticket);
   }
 }

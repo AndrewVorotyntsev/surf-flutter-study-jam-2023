@@ -5,11 +5,13 @@ import 'button.dart';
 /// Виджет диалога для добавления билета
 class NewTicketDialog extends StatelessWidget {
   final TextEditingController urlController;
+  final TextEditingController nameController;
   final VoidCallback onAddTapped;
 
   const NewTicketDialog({
     super.key,
     required this.urlController,
+    required this.nameController,
     required this.onAddTapped,
   });
 
@@ -49,6 +51,22 @@ class NewTicketDialog extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: TextField(
+              controller: nameController,
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.newspaper),
+                hintText: 'Введите название билета',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: TextField(
               controller: urlController,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.link),
@@ -59,22 +77,6 @@ class NewTicketDialog extends StatelessWidget {
               ),
             ),
           ),
-          // SizedBox(
-          //   height: 10,
-          // ),
-          // Padding(
-          //   padding: EdgeInsets.symmetric(horizontal: 20),
-          //   child: TextField(
-          //     controller: urlController,
-          //     decoration: InputDecoration(
-          //       prefixIcon: const Icon(Icons.link),
-          //       hintText: 'Введите ссылку на билет',
-          //       border: OutlineInputBorder(
-          //         borderRadius: BorderRadius.circular(10),
-          //       ),
-          //     ),
-          //   ),
-          // ),
           SizedBox(
             height: 20,
           ),

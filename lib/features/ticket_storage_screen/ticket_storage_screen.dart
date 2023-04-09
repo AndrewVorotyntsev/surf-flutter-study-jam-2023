@@ -1,6 +1,6 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:surf_flutter_study_jam_2023/domain/ticket.dart';
+import 'package:surf_flutter_study_jam_2023/domain/ticket_domain.dart';
 import 'package:surf_flutter_study_jam_2023/features/ticket_storage_screen/ticket_storage_wm.dart';
 import 'package:surf_flutter_study_jam_2023/uikit/ticket_card_widget.dart';
 
@@ -40,18 +40,22 @@ class TicketStorageScreen extends ElementaryWidget<ITicketStorageWidgetModel> {
                     ),
                     child: Container(
                       color: Colors.red,
-                      padding: EdgeInsets.only(left: 20),
-                      child: Align(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Удалить",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                     ),
                   ),
                   key: UniqueKey(),
-                  onDismissed: (DismissDirection direction) => wm.deleteTicket,
+                  onDismissed: (DismissDirection direction) =>
+                      wm.deleteTicket(ticketsList[index]),
                   child: Padding(
                     padding: const EdgeInsets.only(
                       left: 8,
@@ -63,6 +67,8 @@ class TicketStorageScreen extends ElementaryWidget<ITicketStorageWidgetModel> {
                       name: ticketsList[index].name,
                       progress: ticketsList[index].progress,
                       status: 'Ожидает начала загрузки',
+                      onDownloadTap: () =>
+                          wm.downloadTicket(ticketsList[index]),
                     ),
                   ),
                 );
