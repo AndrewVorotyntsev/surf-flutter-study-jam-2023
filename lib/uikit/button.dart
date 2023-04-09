@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class UIButton extends StatelessWidget {
   final String name;
   final VoidCallback onTap;
+  final bool isActive;
 
   const UIButton({
     super.key,
     required this.name,
     required this.onTap,
+    required this.isActive,
   });
 
   @override
@@ -15,7 +17,7 @@ class UIButton extends StatelessWidget {
     return Container(
       height: 50,
       decoration: BoxDecoration(
-        color: Colors.lightBlueAccent,
+        color: isActive ? Colors.lightBlueAccent : Colors.grey,
         borderRadius: BorderRadius.all(Radius.circular(30)),
       ),
       clipBehavior: Clip.hardEdge,
@@ -23,7 +25,7 @@ class UIButton extends StatelessWidget {
         type: MaterialType.transparency,
         clipBehavior: Clip.hardEdge,
         child: InkWell(
-          onTap: onTap,
+          onTap: isActive ? onTap : null,
           // внутренний контент
           child: Center(
             child: Text(

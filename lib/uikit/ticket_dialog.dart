@@ -97,6 +97,7 @@ class NewTicketDialog extends StatelessWidget {
                   child: UIButton(
                     name: 'Добавить',
                     onTap: onAddTapped,
+                    isActive: isValid ?? false,
                   ),
                 )
               ],
