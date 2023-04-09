@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:surf_flutter_study_jam_2023/features/ticket_storage/ticket_storage_page.dart';
+import 'package:surf_flutter_study_jam_2023/features/ticket_storage_screen/ticket_storage_screen.dart';
+
+import 'di/di_container.dart';
 
 void main() {
+  configureDependencies();
   runApp(const MyApp());
 }
 
@@ -15,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const TicketStoragePage(),
+      home: const TicketStorageScreen(),
     );
   }
 }
