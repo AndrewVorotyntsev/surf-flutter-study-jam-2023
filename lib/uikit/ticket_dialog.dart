@@ -14,7 +14,7 @@ class NewTicketDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 300,
+      height: 600,
       child: Column(
         //mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
@@ -57,8 +57,24 @@ class NewTicketDialog extends StatelessWidget {
               ),
             ),
           ),
+          // SizedBox(
+          //   height: 10,
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 20),
+          //   child: TextField(
+          //     controller: urlController,
+          //     decoration: InputDecoration(
+          //       prefixIcon: const Icon(Icons.link),
+          //       hintText: 'Введите ссылку на билет',
+          //       border: OutlineInputBorder(
+          //         borderRadius: BorderRadius.circular(10),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           SizedBox(
-            height: 15,
+            height: 20,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
