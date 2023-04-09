@@ -13,11 +13,15 @@ import 'package:surf_flutter_study_jam_2023/repository/tickets_repository.dart';
 import 'package:surf_flutter_study_jam_2023/uikit/popup/show_popup.dart';
 import 'package:surf_flutter_study_jam_2023/uikit/ticket_dialog.dart';
 import 'package:surf_flutter_study_jam_2023/utils/download_helper.dart';
+import 'package:surf_flutter_study_jam_2023/utils/validator.dart';
 
 /// Абстракция Widget Model
 abstract class ITicketStorageWidgetModel extends IWidgetModel {
   /// Состояние пролистывания до конца списка
   StateNotifier<bool> get isEndScrollState;
+
+  /// Состояние валидации
+  StateNotifier<bool> get validationState;
 
   /// Состояние списка билетов
   ListenableState<EntityState<List<TicketDomain>>> get ticketsListState;
@@ -62,6 +66,9 @@ class TicketStorageWidgetModel
   StateNotifier<bool> isEndScrollState = StateNotifier<bool>(initValue: false);
 
   @override
+  StateNotifier<bool> validationState = StateNotifier<bool>(initValue: true);
+
+  @override
   late ScrollController ticketsListScrollController;
 
   @override
@@ -83,6 +90,8 @@ class TicketStorageWidgetModel
 
     ticketsListScrollController = ScrollController();
     ticketsListScrollController.addListener(_ticketsListScrollListener);
+
+    urlController.addListener(validate);
     super.initWidgetModel();
   }
 
@@ -94,6 +103,7 @@ class TicketStorageWidgetModel
         nameController: nameController,
         urlController: urlController,
         onAddTapped: _addNewTicket,
+        validateState: validationState,
       ),
     );
   }
@@ -170,5 +180,15 @@ class TicketStorageWidgetModel
   @override
   void onPauseTap() {
     // TODO: implement onPauseTap
+  }
+
+  /// Вадидация поля с адресом
+  void validate() {
+    bool isValid = regExpUrlPdf.hasMatch(urlController.text);
+    if (isValid) {
+      validationState.accept(true);
+    } else {
+      validationState.accept(false);
+    }
   }
 }
