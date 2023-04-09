@@ -10,6 +10,7 @@ import 'package:surf_flutter_study_jam_2023/interactor/download/download_interac
 import 'package:surf_flutter_study_jam_2023/repository/tickets_repository.dart';
 import 'package:surf_flutter_study_jam_2023/uikit/popup/show_popup.dart';
 import 'package:surf_flutter_study_jam_2023/uikit/ticket_dialog.dart';
+import 'package:surf_flutter_study_jam_2023/utils/download_helper.dart';
 
 /// Абстракция Widget Model
 abstract class ITicketStorageWidgetModel extends IWidgetModel {
@@ -93,15 +94,31 @@ class TicketStorageWidgetModel
 
   @override
   void downloadTicket(TicketDomain ticket) async {
-    String? filePath =
-        await model.downloadTicket(ticket.url, onReceiveProgress);
-    if (filePath != null) {
-      Navigator.of(context).push(PdfViewScreenRoute(filePath));
-    }
+    String? filePath = await model.downloadTicket(ticket.url,
+        (int count, int total) => onReceiveProgress(ticket, count, total));
+    // if (filePath != null) {
+    //   Navigator.of(context).push(PdfViewScreenRoute(filePath));
+    // }
   }
 
-  void onReceiveProgress(int count, int total) {
-    print('count $count : total $total');
+  void onReceiveProgress(
+    TicketDomain ticket,
+    int count,
+    int total,
+  ) {
+    ticket.downloadProgressState.accept(DownloadData(
+      count,
+      total,
+      status: DownloadStatus.downloading,
+    ));
+    if (count == total) {
+      ticket.downloadProgressState.accept(DownloadData(
+        count,
+        total,
+        status: DownloadStatus.downloaded,
+      ));
+    }
+    print('count $count : total $total : ${count / total}');
   }
 
   void _addNewTicket() {
@@ -109,6 +126,7 @@ class TicketStorageWidgetModel
       name: nameController.text,
       url: urlController.text,
       created: DateTime.now(),
+      downloadProgressState: StateNotifier<DownloadData>(),
     );
     final prevList = _ticketsList.value?.data ?? [];
     prevList.add(newTicket);

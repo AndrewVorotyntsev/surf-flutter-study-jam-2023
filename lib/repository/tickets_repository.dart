@@ -1,8 +1,10 @@
+import 'package:elementary/elementary.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:surf_flutter_study_jam_2023/db/ticket_data.dart';
 import 'package:surf_flutter_study_jam_2023/domain/ticket_domain.dart';
 import 'package:surf_flutter_study_jam_2023/res/common_strings.dart';
+import 'package:surf_flutter_study_jam_2023/utils/download_helper.dart';
 
 /// Репозиторий для работы с билетами
 
@@ -46,6 +48,7 @@ class TicketsRepositoryImpl extends TicketsRepository {
         name: ticket.name,
         url: ticket.url,
         created: ticket.created,
+        downloadProgressState: StateNotifier<DownloadData>(),
       ));
     }
     return localTicketsDomain;

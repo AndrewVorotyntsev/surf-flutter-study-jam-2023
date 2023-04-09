@@ -69,6 +69,7 @@ class TicketStorageScreen extends ElementaryWidget<ITicketStorageWidgetModel> {
                       status: 'Ожидает начала загрузки',
                       onDownloadTap: () =>
                           wm.downloadTicket(ticketsList[index]),
+                      downloadState: ticketsList[index].downloadProgressState,
                     ),
                   ),
                 );
