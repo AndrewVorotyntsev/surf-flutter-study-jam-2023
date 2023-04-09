@@ -7,18 +7,6 @@ class TicketCardWidget extends StatelessWidget {
   /// Название билета
   final String name;
 
-  /// Прогресс скачивания файла
-  final double progress;
-
-  /// Статус скачивания файла
-  final String status;
-
-  /// Скачанный объем
-  final double? currentLoaded;
-
-  /// Общий размер файла
-  final double? total;
-
   final VoidCallback onDownloadTap;
   final VoidCallback onPauseTap;
   final VoidCallback onFileTap;
@@ -28,10 +16,6 @@ class TicketCardWidget extends StatelessWidget {
   const TicketCardWidget({
     super.key,
     required this.name,
-    required this.progress,
-    required this.status,
-    this.currentLoaded,
-    this.total,
     required this.onDownloadTap,
     required this.downloadState,
     required this.onPauseTap,

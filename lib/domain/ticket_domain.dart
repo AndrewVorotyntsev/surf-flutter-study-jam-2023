@@ -15,21 +15,18 @@ class TicketDomain {
   /// Дата добавления билета
   DateTime created;
 
-  /// Прогресс загрузки файлов на устройство
-  double progress;
-
-  ///
+  /// Состояние загрузки билета
   StateNotifier<DownloadData> downloadProgressState;
 
-  TicketDomain(
-      {required this.name,
-      required this.url,
-      required this.created,
-      required this.downloadProgressState,
-      this.source,
-      double? progress})
-      : progress = progress ?? 0;
+  TicketDomain({
+    required this.name,
+    required this.url,
+    required this.created,
+    required this.downloadProgressState,
+    this.source,
+  });
 
+  /// Установить ссылку на локальный ресурс
   TicketDomain setSource({String? source}) {
     return TicketDomain(
       name: name,

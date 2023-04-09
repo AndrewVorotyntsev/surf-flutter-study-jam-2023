@@ -65,8 +65,6 @@ class TicketStorageScreen extends ElementaryWidget<ITicketStorageWidgetModel> {
                     ),
                     child: TicketCardWidget(
                       name: ticketsList[index].name,
-                      progress: ticketsList[index].progress,
-                      status: 'Ожидает начала загрузки',
                       onDownloadTap: () =>
                           wm.downloadTicket(ticketsList[index]),
                       downloadState: ticketsList[index].downloadProgressState,
