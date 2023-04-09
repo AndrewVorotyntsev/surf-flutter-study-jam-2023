@@ -69,7 +69,7 @@ https://user-images.githubusercontent.com/48821142/230798984-feeeb81f-5472-4a89-
 
 double get progress => count != null && total != ~~total~~ null ? count! / total! : 0;
 
-
+# Демонстрация работы индикатора в ранеей версии
 https://user-images.githubusercontent.com/48821142/230799587-f978d7e7-d254-4745-a556-16328dec344a.mp4
 
 
