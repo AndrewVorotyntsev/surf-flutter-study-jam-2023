@@ -5,6 +5,6 @@ import 'package:injectable/injectable.dart';
 class AppErrorHandler extends ErrorHandler {
   @override
   void handleError(Object error, {StackTrace? stackTrace}) {
-    // TODO: implement handleError
+    print(error);
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_flutter_study_jam_2023/di/di_container.dart';
@@ -11,6 +9,7 @@ import 'package:surf_flutter_study_jam_2023/features/ticket_storage_screen/ticke
 import 'package:surf_flutter_study_jam_2023/interactor/download/download_interactor.dart';
 import 'package:surf_flutter_study_jam_2023/repository/tickets_repository.dart';
 import 'package:surf_flutter_study_jam_2023/uikit/popup/show_popup.dart';
+import 'package:surf_flutter_study_jam_2023/uikit/snack.dart';
 import 'package:surf_flutter_study_jam_2023/uikit/ticket_dialog.dart';
 import 'package:surf_flutter_study_jam_2023/utils/download_helper.dart';
 import 'package:surf_flutter_study_jam_2023/utils/validator.dart';
@@ -153,6 +152,9 @@ class TicketStorageWidgetModel
     model.addTicket(newTicket);
     _ticketsList.accept(EntityState(data: prevList));
     Navigator.of(context).pop();
+
+    /// Показать снек об успехе
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   /// Прослушиватель скрола списка билетов
