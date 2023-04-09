@@ -4,7 +4,7 @@ import 'package:surf_flutter_study_jam_2023/domain/ticket_domain.dart';
 import 'package:surf_flutter_study_jam_2023/features/ticket_storage_screen/ticket_storage_wm.dart';
 import 'package:surf_flutter_study_jam_2023/uikit/ticket_card_widget.dart';
 
-/// Экран “Хранения билетов”.
+/// Экран Хранения билетов.
 class TicketStorageScreen extends ElementaryWidget<ITicketStorageWidgetModel> {
   const TicketStorageScreen({
     Key? key,
@@ -68,7 +68,7 @@ class TicketStorageScreen extends ElementaryWidget<ITicketStorageWidgetModel> {
                       onDownloadTap: () =>
                           wm.downloadTicket(ticketsList[index]),
                       downloadState: ticketsList[index].downloadProgressState,
-                      onPauseTap: () {},
+                      onPauseTap: wm.onPauseTap,
                       onFileTap: () => wm.onFileTap(ticketsList[index]),
                     ),
                   ),
@@ -89,7 +89,7 @@ class TicketStorageScreen extends ElementaryWidget<ITicketStorageWidgetModel> {
             return const SizedBox.shrink();
           }
           return FloatingActionButton.extended(
-            label: Text('Добавить'),
+            label: const Text('Добавить'),
             onPressed: () => wm.showAddNewTicketDialog(),
           );
         },
@@ -106,10 +106,11 @@ class TicketStorageScreenRoute extends MaterialPageRoute {
         );
 }
 
+/// Заглушка для пустого списка
 class _TicketsListPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text(
         "Здесь пока ничего нет",
         textScaleFactor: 2,

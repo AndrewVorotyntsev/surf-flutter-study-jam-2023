@@ -34,14 +34,19 @@ abstract class ITicketStorageWidgetModel extends IWidgetModel {
   /// Контроллер для ввода названия билета
   TextEditingController get nameController;
 
+  /// Показать диалог добавления нового билета
   void showAddNewTicketDialog();
 
+  /// Удалить билет
   void deleteTicket(TicketDomain ticket);
 
+  /// Скачать билет
   void downloadTicket(TicketDomain ticket);
 
+  /// Установить скачку на паузу
   void onPauseTap();
 
+  /// Переход к файлу
   void onFileTap(TicketDomain ticket);
 }
 
@@ -90,7 +95,7 @@ class TicketStorageWidgetModel
     ticketsListScrollController = ScrollController();
     ticketsListScrollController.addListener(_ticketsListScrollListener);
 
-    urlController.addListener(validate);
+    urlController.addListener(_validate);
     super.initWidgetModel();
   }
 
@@ -110,7 +115,7 @@ class TicketStorageWidgetModel
   @override
   void downloadTicket(TicketDomain ticket) async {
     String? filePath = await model.downloadTicket(ticket.url,
-        (int count, int total) => onReceiveProgress(ticket, count, total));
+        (int count, int total) => _onReceiveProgress(ticket, count, total));
 
     List<TicketDomain> list = _ticketsList.value?.data ?? [];
     int? thatIndex = list.indexWhere((element) => element == ticket);
@@ -121,7 +126,24 @@ class TicketStorageWidgetModel
     model.updateTicket(thatTicket);
   }
 
-  void onReceiveProgress(
+  @override
+  void deleteTicket(TicketDomain ticket) {
+    model.deleteTicket(ticket);
+  }
+
+  @override
+  void onFileTap(TicketDomain ticket) {
+    if (ticket.source != null) {
+      Navigator.of(context).push(PdfViewScreenRoute(ticket.source!));
+    }
+  }
+
+  @override
+  void onPauseTap() {
+    // TODO: implement onPauseTap
+  }
+
+  void _onReceiveProgress(
     TicketDomain ticket,
     int count,
     int total,
@@ -167,25 +189,8 @@ class TicketStorageWidgetModel
     }
   }
 
-  @override
-  void deleteTicket(TicketDomain ticket) {
-    model.deleteTicket(ticket);
-  }
-
-  @override
-  void onFileTap(TicketDomain ticket) {
-    if (ticket.source != null) {
-      Navigator.of(context).push(PdfViewScreenRoute(ticket.source!));
-    }
-  }
-
-  @override
-  void onPauseTap() {
-    // TODO: implement onPauseTap
-  }
-
   /// Вадидация поля с адресом
-  void validate() {
+  void _validate() {
     bool isValid = regExpUrlPdf.hasMatch(urlController.text);
     if (isValid) {
       validationState.accept(true);
