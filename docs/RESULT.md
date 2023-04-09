@@ -39,7 +39,10 @@ Android
 
 ## Добавление билета
 
-https://user-images.githubusercontent.com/48821142/230799247-e769ea63-5004-4c24-a319-7b640f83c8d0.mp4
+
+https://user-images.githubusercontent.com/48821142/230799449-e231c6f6-2d88-47fc-a469-94504a203944.mp4
+
+
 
 ## Исчезновение кнопки
 
@@ -55,7 +58,7 @@ https://user-images.githubusercontent.com/48821142/230798852-20c84ab0-6d79-4c0e-
 
 ## Сохранение файла
 
-https://user-images.githubusercontent.com/48821142/230799217-77aa6a66-85aa-43b9-a55d-0f344b4298a7.mp4
+https://user-images.githubusercontent.com/48821142/230799546-22b89ae4-ffad-4ee4-a234-ae98bb92f563.mp4
 
 ## Удаление файла
 
