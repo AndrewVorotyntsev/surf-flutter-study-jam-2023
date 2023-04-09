@@ -10,8 +10,14 @@ import 'package:surf_flutter_study_jam_2023/uikit/ticket_dialog.dart';
 
 /// Абстракция Widget Model
 abstract class ITicketStorageWidgetModel extends IWidgetModel {
+  /// Состояние пролистывания до конца списка
+  StateNotifier<bool> get isEndScrollState;
+
   /// Состояние списка билетов
   ListenableState<EntityState<List<TicketDomain>>> get ticketsListState;
+
+  /// Контроллер для скрола списка
+  ScrollController get ticketsListScrollController;
 
   void showAddNewTicketDialog();
 }
@@ -31,6 +37,12 @@ class TicketStorageWidgetModel
   TicketStorageWidgetModel(TicketStorageScreenModel model) : super(model);
 
   @override
+  StateNotifier<bool> isEndScrollState = StateNotifier<bool>(initValue: false);
+
+  @override
+  late ScrollController ticketsListScrollController;
+
+  @override
   // TODO: implement newsListState
   ListenableState<EntityState<List<TicketDomain>>> get ticketsListState =>
       _ticketsList;
@@ -40,6 +52,8 @@ class TicketStorageWidgetModel
   @override
   void initWidgetModel() {
     // TODO: загрузить локальные билеты
+    ticketsListScrollController = ScrollController();
+    ticketsListScrollController.addListener(_ticketsListScrollListener);
     super.initWidgetModel();
   }
 
@@ -54,10 +68,20 @@ class TicketStorageWidgetModel
     );
   }
 
-  _addNewTicket() {
+  void _addNewTicket() {
     final prevList = _ticketsList.value?.data ?? [];
     prevList
         .add(TicketDomain(name: 'ticket', url: '', created: DateTime.now()));
     _ticketsList.accept(EntityState(data: prevList));
+  }
+
+  /// Прослушиватель скрола списка билетов
+  void _ticketsListScrollListener() {
+    /// Когда пользователь долистал до конца, передать состояние
+    if (ticketsListScrollController.position.extentAfter <= 20) {
+      isEndScrollState.accept(true);
+    } else {
+      isEndScrollState.accept(false);
+    }
   }
 }

@@ -28,11 +28,16 @@ class TicketStorageScreen extends ElementaryWidget<ITicketStorageWidgetModel> {
               return _TicketsListPlaceholder();
             }
             return ListView.builder(
+              controller: wm.ticketsListScrollController,
               itemCount: ticketsList.length,
               itemBuilder: (BuildContext ctx, index) {
                 return Padding(
-                  padding:
-                      EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
+                  padding: const EdgeInsets.only(
+                    left: 8,
+                    right: 8,
+                    top: 5,
+                    bottom: 5,
+                  ),
                   child: TicketCardWidget(
                     name: ticketsList[index].name,
                     progress: ticketsList[index].progress,
@@ -44,9 +49,21 @@ class TicketStorageScreen extends ElementaryWidget<ITicketStorageWidgetModel> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        label: Text('Добавить'),
-        onPressed: () => wm.showAddNewTicketDialog(),
+      floatingActionButton: StateNotifierBuilder<bool>(
+        listenableState: wm.isEndScrollState,
+        builder: (
+          BuildContext context,
+          bool? isEndScroll,
+        ) {
+          /// Когда пользователь долистал до конца, скрыть кнопку
+          if (isEndScroll ?? false) {
+            return const SizedBox.shrink();
+          }
+          return FloatingActionButton.extended(
+            label: Text('Добавить'),
+            onPressed: () => wm.showAddNewTicketDialog(),
+          );
+        },
       ),
     );
   }
