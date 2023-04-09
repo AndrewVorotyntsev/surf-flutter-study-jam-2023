@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// Кнопка
+/// Имеет имя, колбэк и параметр активностиы
 class UIButton extends StatelessWidget {
   final String name;
   final VoidCallback onTap;

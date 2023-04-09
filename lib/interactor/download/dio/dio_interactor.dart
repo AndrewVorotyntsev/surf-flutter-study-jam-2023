@@ -2,12 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:path_provider/path_provider.dart';
 
+/// Модуль для работы с Dio
 @module
 abstract class DioModule {
   @lazySingleton
   Dio getDio() => Dio();
 }
 
+/// Интерактор для работы с Dio
 @singleton
 class DioInteractor {
   final Dio dio;
@@ -42,7 +44,6 @@ class DioInteractor {
     } catch (e) {
       rethrow;
     }
-    print(filePath);
 
     return filePath;
   }

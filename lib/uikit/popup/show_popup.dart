@@ -6,7 +6,7 @@ void showPopUp<T>(BuildContext context, Widget dialogBody) {
     context: context,
     // Параметр чтобы диалог занимал всю высоту
     isScrollControlled: true,
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadiusDirectional.vertical(
         top: Radius.circular(10),
       ),

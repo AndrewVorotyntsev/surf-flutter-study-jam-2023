@@ -9,7 +9,6 @@ import 'package:surf_flutter_study_jam_2023/res/common_strings.dart';
 import 'package:surf_flutter_study_jam_2023/utils/download_helper.dart';
 
 /// Репозиторий для работы с билетами
-
 abstract class TicketsRepository {
   /// Добавить билет
   void addTicket(TicketDomain ticket);
@@ -20,6 +19,7 @@ abstract class TicketsRepository {
   /// Удалить билет
   void deleteTicket(TicketDomain ticket);
 
+  /// Обновить билет
   void updateTicket(TicketDomain ticket);
 }
 

@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:surf_flutter_study_jam_2023/interactor/download/dio/dio_interactor.dart';
 
-/// Интерактор
+/// Интерактор для загрузки файлов
 abstract class DownloadInteractor {
   /// Скачать файл
   /// Необходимо передать ссылку на файл и колбэк для отслеживания прогресса

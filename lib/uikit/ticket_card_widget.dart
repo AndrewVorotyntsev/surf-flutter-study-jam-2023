@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:surf_flutter_study_jam_2023/res/colors.dart';
 import 'package:surf_flutter_study_jam_2023/utils/download_helper.dart';
 
+/// Виджет для отображения билета
 class TicketCardWidget extends StatelessWidget {
   /// Название билета
   final String name;

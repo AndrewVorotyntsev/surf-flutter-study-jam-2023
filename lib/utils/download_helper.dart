@@ -15,6 +15,7 @@ class DownloadData {
 
 enum DownloadStatus { waiting, downloading, downloaded }
 
+/// Перевести МБ в Б
 extension MBFromBytes on int? {
   /// Перевести Б в Мб
   double? MBFromB() {
