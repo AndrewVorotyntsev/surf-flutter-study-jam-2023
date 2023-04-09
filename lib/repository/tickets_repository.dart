@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:elementary/elementary.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
@@ -17,6 +19,8 @@ abstract class TicketsRepository {
 
   /// Удалить билет
   void deleteTicket(TicketDomain ticket);
+
+  void updateTicket(TicketDomain ticket);
 }
 
 /// Имплементация к [TicketsRepository]
@@ -28,14 +32,27 @@ class TicketsRepositoryImpl extends TicketsRepository {
 
   @override
   void addTicket(TicketDomain ticket) {
-    _ticketsBox.add(TicketData(ticket.name, ticket.url, ticket.created));
+    _ticketsBox.add(
+      TicketData(
+        ticket.name,
+        ticket.url,
+        ticket.source,
+        ticket.created,
+      ),
+    );
   }
 
   @override
   void deleteTicket(TicketDomain ticket) {
-    // _ticketsBox.add(value)
-    // TicketData ticketData = _ticketsBox.values.firstWhere((TicketData element) => element.created == ticket.created);
-    // _ticketsBox.delete(index)
+    List<TicketData>? list = _ticketsBox.values.toList();
+    int index = list.indexWhere((element) => element.created == ticket.created);
+    TicketData ticketData = list[index];
+    ticketData.source = ticket.source;
+    _ticketsBox.deleteAt(index);
+    if (ticket.source != null) {
+      File fileToDelete = File(ticket.source!);
+      fileToDelete.delete();
+    }
   }
 
   @override
@@ -44,13 +61,33 @@ class TicketsRepositoryImpl extends TicketsRepository {
     List<TicketDomain> localTicketsDomain = [];
 
     for (final ticket in localTickets) {
-      localTicketsDomain.add(TicketDomain(
-        name: ticket.name,
-        url: ticket.url,
-        created: ticket.created,
-        downloadProgressState: StateNotifier<DownloadData>(),
-      ));
+      DownloadStatus? status;
+      if (ticket.source != null) {
+        status = DownloadStatus.downloaded;
+      } else {
+        status = DownloadStatus.waiting;
+      }
+      localTicketsDomain.add(
+        TicketDomain(
+          name: ticket.name,
+          url: ticket.url,
+          created: ticket.created,
+          source: ticket.source,
+          downloadProgressState: StateNotifier<DownloadData>(
+            initValue: DownloadData(status: status),
+          ),
+        ),
+      );
     }
     return localTicketsDomain;
+  }
+
+  @override
+  void updateTicket(TicketDomain ticket) {
+    List<TicketData>? list = _ticketsBox.values.toList();
+    int index = list.indexWhere((element) => element.created == ticket.created);
+    TicketData ticketData = list[index];
+    ticketData.source = ticket.source;
+    _ticketsBox.putAt(index, ticketData);
   }
 }

@@ -1,14 +1,14 @@
 /// Вспомогательный класс для загрузки
 class DownloadData {
-  int count;
-  int total;
-  double get progress => count / total;
+  int? count;
+  int? total;
+  double get progress => count != null && total != total ? count! / total! : 0;
 
   DownloadStatus status;
 
-  DownloadData(
+  DownloadData({
     this.count,
-    this.total, {
+    this.total,
     this.status = DownloadStatus.waiting,
   });
 }

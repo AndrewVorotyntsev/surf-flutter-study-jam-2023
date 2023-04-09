@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:surf_flutter_study_jam_2023/di/di_container.dart';
@@ -101,10 +103,13 @@ class TicketStorageWidgetModel
     String? filePath = await model.downloadTicket(ticket.url,
         (int count, int total) => onReceiveProgress(ticket, count, total));
 
-    List<TicketDomain>? list = _ticketsList.value?.data;
-    list?[list.indexWhere((element) => element == ticket)] =
-        ticket.setSource(source: filePath);
+    List<TicketDomain> list = _ticketsList.value?.data ?? [];
+    int? thatIndex = list.indexWhere((element) => element == ticket);
+    TicketDomain? thatTicket = list[thatIndex];
+    thatTicket = ticket.setSource(source: filePath);
+    list[thatIndex] = thatTicket;
     _ticketsList.accept(EntityState(data: list));
+    model.updateTicket(thatTicket);
   }
 
   void onReceiveProgress(
@@ -113,14 +118,14 @@ class TicketStorageWidgetModel
     int total,
   ) {
     ticket.downloadProgressState.accept(DownloadData(
-      count,
-      total,
+      count: count,
+      total: total,
       status: DownloadStatus.downloading,
     ));
     if (count == total) {
       ticket.downloadProgressState.accept(DownloadData(
-        count,
-        total,
+        count: count,
+        total: total,
         status: DownloadStatus.downloaded,
       ));
     }

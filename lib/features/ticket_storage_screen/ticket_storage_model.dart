@@ -21,6 +21,10 @@ class TicketStorageScreenModel extends ElementaryModel {
   /// Добавить билет
   void addTicket(TicketDomain ticket) => _ticketsRepository.addTicket(ticket);
 
+  /// Добавить билет
+  void updateTicket(TicketDomain ticket) =>
+      _ticketsRepository.updateTicket(ticket);
+
   /// Удалить билет
   void deleteTicket(TicketDomain ticket) =>
       _ticketsRepository.deleteTicket(ticket);
