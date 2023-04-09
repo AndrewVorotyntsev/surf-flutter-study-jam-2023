@@ -31,17 +31,39 @@ class TicketStorageScreen extends ElementaryWidget<ITicketStorageWidgetModel> {
               controller: wm.ticketsListScrollController,
               itemCount: ticketsList.length,
               itemBuilder: (BuildContext ctx, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(
-                    left: 8,
-                    right: 8,
-                    top: 5,
-                    bottom: 5,
+                return Dismissible(
+                  background: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 8,
+                      top: 5,
+                      bottom: 5,
+                    ),
+                    child: Container(
+                      color: Colors.red,
+                      padding: EdgeInsets.only(left: 20),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Удалить",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                      ),
+                    ),
                   ),
-                  child: TicketCardWidget(
-                    name: ticketsList[index].name,
-                    progress: ticketsList[index].progress,
-                    status: 'Ожидает начала загрузки',
+                  key: UniqueKey(),
+                  onDismissed: (DismissDirection direction) => wm.deleteTicket,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 8,
+                      right: 8,
+                      top: 5,
+                      bottom: 5,
+                    ),
+                    child: TicketCardWidget(
+                      name: ticketsList[index].name,
+                      progress: ticketsList[index].progress,
+                      status: 'Ожидает начала загрузки',
+                    ),
                   ),
                 );
               },

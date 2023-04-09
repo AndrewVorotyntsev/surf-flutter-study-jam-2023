@@ -20,6 +20,8 @@ abstract class ITicketStorageWidgetModel extends IWidgetModel {
   ScrollController get ticketsListScrollController;
 
   void showAddNewTicketDialog();
+
+  void deleteTicket();
 }
 
 TicketStorageWidgetModel defaultAppWidgetModelFactory(BuildContext context) {
@@ -83,5 +85,10 @@ class TicketStorageWidgetModel
     } else {
       isEndScrollState.accept(false);
     }
+  }
+
+  @override
+  void deleteTicket() {
+    print('delete');
   }
 }
