@@ -5,10 +5,12 @@ import 'button.dart';
 /// Виджет диалога для добавления билета
 class NewTicketDialog extends StatelessWidget {
   final TextEditingController urlController;
+  final VoidCallback onAddTapped;
 
   const NewTicketDialog({
     super.key,
     required this.urlController,
+    required this.onAddTapped,
   });
 
   @override
@@ -80,7 +82,7 @@ class NewTicketDialog extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: UIButton(
               name: 'Добавить',
-              onTap: () {},
+              onTap: onAddTapped,
             ),
           )
         ],

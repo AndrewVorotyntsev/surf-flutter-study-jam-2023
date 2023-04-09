@@ -19,15 +19,28 @@ class TicketStorageScreen extends ElementaryWidget<ITicketStorageWidgetModel> {
       ),
       body: SafeArea(
         child: EntityStateNotifierBuilder<List<TicketDomain>>(
-          listenableEntityState: wm.newsListState,
-          builder: (BuildContext context, List<TicketDomain>? newsList) {
-            if (newsList == null) {
+          listenableEntityState: wm.ticketsListState,
+          builder: (BuildContext context, List<TicketDomain>? ticketsList) {
+            if (ticketsList == null) {
               return _TicketsListPlaceholder();
             }
-            if (newsList.isEmpty) {
+            if (ticketsList.isEmpty) {
               return _TicketsListPlaceholder();
             }
-            return SizedBox();
+            return ListView.builder(
+              itemCount: ticketsList.length,
+              itemBuilder: (BuildContext ctx, index) {
+                return Padding(
+                  padding:
+                      EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
+                  child: TicketCardWidget(
+                    name: ticketsList[index].name,
+                    progress: ticketsList[index].progress,
+                    status: 'Ожидает начала загрузки',
+                  ),
+                );
+              },
+            );
           },
         ),
       ),

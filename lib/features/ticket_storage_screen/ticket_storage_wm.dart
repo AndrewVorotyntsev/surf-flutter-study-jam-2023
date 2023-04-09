@@ -11,7 +11,7 @@ import 'package:surf_flutter_study_jam_2023/uikit/ticket_dialog.dart';
 /// Абстракция Widget Model
 abstract class ITicketStorageWidgetModel extends IWidgetModel {
   /// Состояние списка билетов
-  ListenableState<EntityState<List<TicketDomain>>> get newsListState;
+  ListenableState<EntityState<List<TicketDomain>>> get ticketsListState;
 
   void showAddNewTicketDialog();
 }
@@ -32,10 +32,10 @@ class TicketStorageWidgetModel
 
   @override
   // TODO: implement newsListState
-  ListenableState<EntityState<List<TicketDomain>>> get newsListState =>
-      _newsList;
+  ListenableState<EntityState<List<TicketDomain>>> get ticketsListState =>
+      _ticketsList;
 
-  final _newsList = EntityStateNotifier<List<TicketDomain>>();
+  final _ticketsList = EntityStateNotifier<List<TicketDomain>>();
 
   @override
   void initWidgetModel() {
@@ -49,7 +49,15 @@ class TicketStorageWidgetModel
       context,
       NewTicketDialog(
         urlController: TextEditingController(),
+        onAddTapped: _addNewTicket,
       ),
     );
+  }
+
+  _addNewTicket() {
+    final prevList = _ticketsList.value?.data ?? [];
+    prevList
+        .add(TicketDomain(name: 'ticket', url: '', created: DateTime.now()));
+    _ticketsList.accept(EntityState(data: prevList));
   }
 }
