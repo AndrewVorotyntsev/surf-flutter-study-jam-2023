@@ -9,6 +9,9 @@ class TicketDomain {
   /// Ссылка на билет
   String url;
 
+  /// Ссылка на локальный файл
+  String? source;
+
   /// Дата добавления билета
   DateTime created;
 
@@ -23,6 +26,17 @@ class TicketDomain {
       required this.url,
       required this.created,
       required this.downloadProgressState,
+      this.source,
       double? progress})
       : progress = progress ?? 0;
+
+  TicketDomain setSource({String? source}) {
+    return TicketDomain(
+      name: name,
+      url: url,
+      created: created,
+      downloadProgressState: downloadProgressState,
+      source: source,
+    );
+  }
 }

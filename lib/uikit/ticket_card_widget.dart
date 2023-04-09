@@ -20,6 +20,8 @@ class TicketCardWidget extends StatelessWidget {
   final double? total;
 
   final VoidCallback onDownloadTap;
+  final VoidCallback onPauseTap;
+  final VoidCallback onFileTap;
 
   final StateNotifier<DownloadData> downloadState;
 
@@ -32,6 +34,8 @@ class TicketCardWidget extends StatelessWidget {
     this.total,
     required this.onDownloadTap,
     required this.downloadState,
+    required this.onPauseTap,
+    required this.onFileTap,
   });
 
   @override
@@ -112,12 +116,12 @@ class TicketCardWidget extends StatelessWidget {
                 if (downloadData?.status == DownloadStatus.downloading)
                   IconButton(
                     icon: Icon(Icons.pause),
-                    onPressed: onDownloadTap,
+                    onPressed: onPauseTap,
                   ),
                 if (downloadData?.status == DownloadStatus.downloaded)
                   IconButton(
                     icon: Icon(Icons.file_copy_outlined),
-                    onPressed: onDownloadTap,
+                    onPressed: onFileTap,
                   ),
                 SizedBox(
                   width: 16,

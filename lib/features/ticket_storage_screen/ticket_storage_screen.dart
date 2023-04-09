@@ -70,6 +70,8 @@ class TicketStorageScreen extends ElementaryWidget<ITicketStorageWidgetModel> {
                       onDownloadTap: () =>
                           wm.downloadTicket(ticketsList[index]),
                       downloadState: ticketsList[index].downloadProgressState,
+                      onPauseTap: () {},
+                      onFileTap: () => wm.onFileTap(ticketsList[index]),
                     ),
                   ),
                 );

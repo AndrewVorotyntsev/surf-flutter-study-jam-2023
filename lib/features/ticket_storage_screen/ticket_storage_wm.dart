@@ -34,6 +34,10 @@ abstract class ITicketStorageWidgetModel extends IWidgetModel {
   void deleteTicket(TicketDomain ticket);
 
   void downloadTicket(TicketDomain ticket);
+
+  void onPauseTap();
+
+  void onFileTap(TicketDomain ticket);
 }
 
 TicketStorageWidgetModel defaultAppWidgetModelFactory(BuildContext context) {
@@ -96,9 +100,11 @@ class TicketStorageWidgetModel
   void downloadTicket(TicketDomain ticket) async {
     String? filePath = await model.downloadTicket(ticket.url,
         (int count, int total) => onReceiveProgress(ticket, count, total));
-    // if (filePath != null) {
-    //   Navigator.of(context).push(PdfViewScreenRoute(filePath));
-    // }
+
+    List<TicketDomain>? list = _ticketsList.value?.data;
+    list?[list.indexWhere((element) => element == ticket)] =
+        ticket.setSource(source: filePath);
+    _ticketsList.accept(EntityState(data: list));
   }
 
   void onReceiveProgress(
@@ -118,7 +124,6 @@ class TicketStorageWidgetModel
         status: DownloadStatus.downloaded,
       ));
     }
-    print('count $count : total $total : ${count / total}');
   }
 
   void _addNewTicket() {
@@ -148,5 +153,17 @@ class TicketStorageWidgetModel
   @override
   void deleteTicket(TicketDomain ticket) {
     model.deleteTicket(ticket);
+  }
+
+  @override
+  void onFileTap(TicketDomain ticket) {
+    if (ticket.source != null) {
+      Navigator.of(context).push(PdfViewScreenRoute(ticket.source!));
+    }
+  }
+
+  @override
+  void onPauseTap() {
+    // TODO: implement onPauseTap
   }
 }

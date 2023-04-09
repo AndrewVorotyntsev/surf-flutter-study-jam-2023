@@ -25,6 +25,8 @@ class DownloadInteractorImpl extends DownloadInteractor {
     void Function(int, int)? onReceiveProgress,
   ) async {
     return await _dioInteractor.download(
-        url: url, onReceiveProgress: onReceiveProgress);
+      url: url,
+      onReceiveProgress: onReceiveProgress,
+    );
   }
 }
